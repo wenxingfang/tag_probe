@@ -452,14 +452,12 @@ for vname in variableNames:
                 canvas.Print('plots/TagAndProbe_py/h_eff_%s_%s_%s_%s.png'%(rname,strname,cname,v.name))
             
                 eff_histos[vname][rname][cname][strname] = h.Clone('h_eff_%s_%s_%s_%s_%d'%(vname, strname, rname, cname, iHEEP))
-                print '$$ ' , strname , eff_histos[vname][rname][cname][strname]
+                if debug:
+                    print '$$ ' , strname , eff_histos[vname][rname][cname][strname]
 
 for vname in eff_histos:
     for rname in eff_histos[vname]:
         for cname in eff_histos[vname][rname]:
-            print vname , rname , cname
-            for strname in eff_histos[vname][rname][cname]:
-                print '%% ' , strname , eff_histos[vname][rname][cname][strname]
             h_data_inc = eff_histos[vname][rname][cname]['data_inc']
             h_data_exc = eff_histos[vname][rname][cname]['data_exc']
             h_MC_inc   = eff_histos[vname][rname][cname]['MC_inc'  ]
@@ -487,7 +485,7 @@ for vname in eff_histos:
             h_MC_exc  .Draw('pe:sames')
             h_data_inc.Draw('axis:sames')
             
-            legend = ROOT.TLegend(0.5, 0.5, 0.9, 0.1)
+            legend = ROOT.TLegend(0.2, 0.5, 0.55, 0.1)
             legend.SetFillStyle(0)
             legend.SetShadowColor(0)
             legend.SetBorderSize(0)
@@ -541,9 +539,6 @@ for vname in variableNames:
             
             h_scale_exc.Draw('pe')
             canvas.Print('plots/TagAndProbe_py/h_SF_%s_%s_%s_exc.png'%(vname,rname,cname))
-            
-            for bin in range(1, h_scale_exc.GetNbinsX()+1):
-                print bin , h_scale_exc.GetBinContent(bin) , h_scale_exc.GetBinError(bin) , h_scale_inc.GetBinContent(bin) , h_scale_inc.GetBinError(bin)
             
             h_data_inc.Write()
             h_data_exc.Write()
